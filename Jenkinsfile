@@ -33,7 +33,7 @@ pipeline{
                 sh'''
                     echo "testing started..."
                     test -f /build/index.html
-                    npm test -a
+                    npm test
                 '''
             }
         }
