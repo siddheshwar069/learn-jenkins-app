@@ -28,6 +28,7 @@ pipeline{
                     args '-u root'
                     reuseNode true
                 }
+            }
             steps{
                 sh'''
                     echo "testing started..."
