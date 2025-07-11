@@ -21,6 +21,23 @@ pipeline{
                 '''
             }
         }
+        
+        stage('e2etests'){
+            agent{
+                docker{
+                    image 'mcr.microsoft.com/playwright:v1.54.0-noble'
+                    reuseNode true
+                }
+            }
+            steps{
+                sh'''
+                    npm install serve
+                    node_modules/.bin/serve -s build &
+                    sleep 20
+                    npx playwright test
+                '''
+            }
+        }
         stage('test'){
             agent{
                 docker{
@@ -34,21 +51,6 @@ pipeline{
                     echo "testing started..."
                     test -f build/index.html
                     npm test
-                '''
-            }
-        }
-        stage('e2etests'){
-            agent{
-                docker{
-                    image 'mcr.microsoft.com/playwright:v1.54.0-noble'
-                    reuseNode true
-                }
-            }
-            steps{
-                sh'''
-                    npm install serve
-                    serve -s build
-                    npx playwright test
                 '''
             }
         }
